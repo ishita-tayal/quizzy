@@ -54,6 +54,17 @@ class Question(db.Model):
     option4 = db.Column(db.String(255), nullable=False)
     correct_option = db.Column(db.Integer, nullable=False)
 
+# Define the Score model
+class Score(db.Model):
+    score_id = db.Column(db.Integer, primary_key=True)
+    quiz_id = db.Column(db.Integer, db.ForeignKey("quiz.quiz_id", ondelete="CASCADE"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
+    time_stamp_of_attempt = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    total_scored = db.Column(db.Integer, nullable=False)
+    
+    quiz = db.relationship("Quiz", back_populates="scores")
+    user = db.relationship("User", backref="scores")
+
 # Function to initialize the database with hardcoded data
 def initialize_database(app):
     with app.app_context():
