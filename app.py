@@ -1,4 +1,5 @@
 #importing necessary modules
+import os
 from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 from model import db, User, Admin, Score, Question, Quiz, Chapter, Subject, initialize_database
 from datetime import datetime
