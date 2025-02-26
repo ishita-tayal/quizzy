@@ -1,0 +1,113 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="color: black; font-weight: bold;">Admin Statistics</h2>
+
+    <!-- Summary Cards -->
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-lg p-3 bg-black text-white">
+                <h3>Total Users</h3>
+                <p class="fs-3 fw-bold">{{ user_count }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-lg p-3 bg-black text-white">
+                <h3>Total Subjects</h3>
+                <p class="fs-3 fw-bold">{{ subject_count }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-lg p-3 bg-black text-white">
+                <h3>Total Quizzes</h3>
+                <p class="fs-3 fw-bold">{{ quiz_count }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bar Chart: Quizzes Per Subject -->
+    <div class="card shadow-lg p-3 bg-white border border-dark">
+        <h3 class="text-center" style="color: black;">Quizzes Per Subject</h3>
+        <canvas id="quizChart"></canvas>
+    </div>
+
+    <!-- Full-width Back Button -->
+    <div class="mt-4">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-lg btn-block back-btn">Back to Dashboard</a>
+    </div>
+</div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Script to Render Chart -->
+<script>
+    var ctx = document.getElementById('quizChart').getContext('2d');
+    var quizChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ subject_names| tojson }},
+    datasets: [{
+        label: 'Number of Quizzes',
+        data: {{ quiz_counts| tojson }},
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',  // Black bars
+        borderColor: 'rgba(0, 0, 0, 1)',  // Darker black border
+        borderWidth: 1
+            }]
+        },
+    options: {
+        responsive: true,
+            scales: {
+            y: { beginAtZero: true, ticks: { color: "black" } },
+            x: { ticks: { color: "black" } }
+        },
+        plugins: {
+            legend: {
+                labels: { color: "black" }  // Makes legend text black
+            }
+        }
+    }
+    });
+</script>
+
+<!-- Custom Styling -->
+<style>
+    body {
+        background-color: white;
+        /* White background */
+        color: black;
+        /* Black text */
+    }
+
+    .card {
+        border-radius: 12px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .back-btn {
+        display: block;
+        width: 100%;
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 12px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .back-btn:hover {
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+    }
+</style>
+
+{% endblock %}

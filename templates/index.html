@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container text-center my-5">
+    <!-- Animated Heading -->
+    <h1 class="display-4 fw-bold text-dark animate__animated animate__fadeInDown">Welcome to Quizzy!</h1>
+    <p class="lead text-secondary animate__animated animate__fadeInUp">Fuel Your Curiosity, One Question at a Time!</p>
+
+    <!-- Interactive Login Options -->
+    <div class="row mt-5 g-4">
+        <!-- User Login -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 hover-shadow">
+                <img src="{{ url_for('static', filename='user.png') }}" class="card-img-top rounded-circle mx-auto mt-3"
+                    alt="User" style="width: 100px; height: 100px;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-success">Login as User</h5>
+                    <p class="card-text">Access quizzes and track your progress in a fun way!</p>
+                    <a href="{{ url_for('user_login') }}" class="btn btn-outline-success w-100">User Login</a>
+                </div>
+            </div>
+        </div>
+        <!-- Admin Login -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 hover-shadow">
+                <img src="{{ url_for('static', filename='admin.png') }}"
+                    class="card-img-top rounded-circle mx-auto mt-3" alt="Admin" style="width: 100px; height: 100px;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Login as Admin</h5>
+                    <p class="card-text">Manage quizzes and view analytics with ease!</p>
+                    <a href="{{ url_for('admin_login') }}" class="btn btn-outline-danger w-100">Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information Section -->
+    <div class="row mt-5 text-start">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-emoji-smile display-5 text-warning"></i>
+                    <h5 class="card-title mt-3">Engaging Quizzes</h5>
+                    <p class="card-text">Participate in quizzes designed to test and expand your knowledge.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-lightbulb display-5 text-primary"></i>
+                    <h5 class="card-title mt-3">Learn While Playing</h5>
+                    <p class="card-text">Quizzes that are not just challenging but also educational.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-grid display-5 text-info"></i>
+                    <h5 class="card-title mt-3">Diverse Categories</h5>
+                    <p class="card-text">Explore a wide range of topics and find quizzes that interest you.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add animations -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+    .hover-shadow:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s;
+    }
+</style>
+{% endblock %}

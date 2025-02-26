@@ -1,0 +1,35 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="display-4 text-center text-dark fw-bold">All Quizzes</h1>
+    <p class="lead text-center text-secondary">Click on a quiz to manage its questions.</p>
+
+    <table class="table table-hover mt-4">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Subject</th>
+                <th>Chapter</th>
+                <th>Date</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz in quizzes %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('quiz_details', quiz_id=quiz.quiz_id) }}" class="text-decoration-none fw-bold">
+                        {{ quiz.title }}
+                    </a>
+                </td>
+                <td>{{ quiz.subject_name }}</td>
+                <td>{{ quiz.chapter_name }}</td>
+                <td>{{ quiz.date_of_quiz.strftime('%Y-%m-%d') }}</td>
+                <td>{{ quiz.time_duration }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

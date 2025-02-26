@@ -1,0 +1,23 @@
+{% extends "user_layout.html" %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="display-4 text-center text-dark fw-bold mb-4">Search Results for "{{ query }}"</h1>
+
+    {% if quizzes %}
+    <ul class="list-group">
+        {% for quiz in quizzes %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-1">{{ quiz.title }}</h5>
+                <small class="text-muted">Duration: {{ quiz.time_duration }} minutes</small>
+            </div>
+            <a href="{{ url_for('user_quiz_details', quiz_id=quiz.quiz_id) }}" class="btn btn-primary">Attempt Quiz</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-center text-muted">No quizzes found.</p>
+    {% endif %}
+</div>
+{% endblock %}

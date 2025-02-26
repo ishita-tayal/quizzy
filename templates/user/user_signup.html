@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container text-center my-5">
+    <!-- Animated Heading -->
+    <h1 class="display-4 fw-bold text-dark animate__animated animate__fadeInDown">Create Your Account</h1>
+    <p class="lead text-secondary animate__animated animate__fadeInUp">Join Quizzy and start exploring exciting quizzes!
+    </p>
+
+    <!-- Signup Form -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="p-4 rounded shadow-sm" style="background-color: white;">
+                <h5 class="fw-bold text-dark mb-4">Sign Up</h5>
+                <form method="POST" action="{{ url_for('user_signup') }}">
+                    <!-- Full Name -->
+                    <div class="mb-3 text-start">
+                        <label for="fullname" class="form-label text-dark">Full Name</label>
+                        <input type="text" class="form-control" id="fullname" name="fullname"
+                            placeholder="Enter your full name" required>
+                    </div>
+                    <!-- Email Address -->
+                    <div class="mb-3 text-start">
+                        <label for="email" class="form-label text-dark">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
+                            required>
+                    </div>
+                    <!-- Password -->
+                    <div class="mb-3 text-start">
+                        <label for="password" class="form-label text-dark">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Create a password" required>
+                    </div>
+                    <!-- Qualification -->
+                    <div class="mb-3 text-start">
+                        <label for="qualification" class="form-label text-dark">Qualification</label>
+                        <select class="form-select" id="qualification" name="qualification" required>
+                            <option value="" disabled selected>Select your qualification</option>
+                            <option value="high_school">High School</option>
+                            <option value="bachelor">Bachelor's Degree</option>
+                            <option value="master">Master's Degree</option>
+                            <option value="doctorate">Doctorate</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <!-- Date of Birth -->
+                    <div class="mb-3 text-start">
+                        <label for="dob" class="form-label text-dark">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob" name="dob" required>
+                    </div>
+                    <!-- Signup Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-dark fw-bold">Sign Up</button>
+                    </div>
+                </form>
+                <!-- Already Registered -->
+                <div class="mt-3">
+                    <p class="text-muted">Already have an account? <a href="{{ url_for('user_login') }}"
+                            class="text-dark">Log in
+                            here</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add animations -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+<style>
+    body {
+        background-color: #f8f9fa;
+        /* Light gray background */
+    }
+
+    .btn-dark:hover {
+        background-color: #333;
+        color: white;
+    }
+
+    .shadow-sm {
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}

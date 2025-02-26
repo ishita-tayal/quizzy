@@ -1,0 +1,36 @@
+{% extends "user_layout.html" %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="display-3 text-center text-dark fw-bold">Your Quiz Scores</h1>
+    <p class="lead text-center text-secondary">Review your past performances</p>
+
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Quiz</th>
+                    <th>Score</th>
+                    <th>Date Attempted</th>
+                    <th>Duration (mins)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in user_scores %}
+                <tr>
+                    <td>{{ score.quiz_title }}</td>
+                    <td>{{ score.total_scored }}/{{ score.total_questions }}</td> <!-- ✅ Updated format -->
+                    <td>{{ score.time_stamp_of_attempt.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ score.time_duration }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No previous quiz attempts found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+</div>
+{% endblock %}

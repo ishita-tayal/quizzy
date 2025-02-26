@@ -1,0 +1,154 @@
+{% extends "user_layout.html" %}
+
+{% block body %}
+<div class="container my-5">
+    <!-- Page Heading -->
+    <h1 class="display-4 text-center text-dark fw-bold mb-4 animate__animated animate__fadeIn">Quiz Summary</h1>
+
+    <!-- Chart Section -->
+    <div class="row">
+        <!-- Quiz Performance (Bar Chart) -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg p-4 mb-4">
+                <h5 class="card-title text-center text-dark fw-bold">Quiz Performance</h5>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subject-Wise Performance (Pie Chart) -->
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg p-4 mb-4">
+                <h5 class="card-title text-center text-dark fw-bold">Subject-Wise Performance</h5>
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Info Section -->
+    <div class="card shadow-lg border-0 rounded-lg p-4 mt-4">
+        <h5 class="card-title text-dark fw-bold">Summary</h5>
+        <p class="card-text text-secondary">
+            Here's a quick summary of your quiz performance. Use the charts above to analyze your strengths and areas
+            for improvement.
+        </p>
+    </div>
+</div>
+
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    .chart-container {
+        width: 100%;
+        height: 400px;
+        /* ✅ Ensures both charts are the same size */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    canvas {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("📊 Quiz Labels:", {{ quiz_labels | tojson }});
+    console.log("📈 Quiz Scores (%):", {{ quiz_scores | tojson }});
+    console.log("📚 Subject Labels:", {{ subject_labels | tojson }});
+    console.log("📊 Subject Quiz Ratios (%):", {{ subject_ratios | tojson }});
+
+    if (typeof Chart === "undefined") {
+        console.error("❌ Chart.js is not loaded!");
+        return;
+    }
+
+    // ✅ Quiz Performance (Bar Chart)
+    let quizLabels = {{ quiz_labels | tojson }};
+    let quizScores = {{ quiz_scores | tojson }};
+
+    if (Array.isArray(quizScores) && quizScores.length > 0) {
+        const barChartCtx = document.getElementById('barChart');
+        if (barChartCtx) {
+            new Chart(barChartCtx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: quizLabels,
+                    datasets: [{
+                        label: 'Score (%)',
+                        data: quizScores,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        } else {
+            console.error("❌ Bar chart canvas not found!");
+        }
+    } else {
+        console.error("❌ No quiz performance data found!");
+    }
+
+    // ✅ Subject-Wise Performance (Pie Chart)
+    let subjectLabels = {{ subject_labels | tojson }};
+    let subjectRatios = {{ subject_ratios | tojson }};
+
+    if (Array.isArray(subjectRatios) && subjectRatios.length > 0) {
+        const pieChartCtx = document.getElementById('pieChart');
+        if (pieChartCtx) {
+            new Chart(pieChartCtx.getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: subjectLabels,
+                    datasets: [{
+                        data: subjectRatios,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    return subjectLabels[tooltipItem.dataIndex] + ": " +
+                                        subjectRatios[tooltipItem.dataIndex].toFixed(2) + "%";
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            console.error("❌ Pie chart canvas not found!");
+        }
+    } else {
+        console.error("❌ No subject performance data found!");
+    }
+    });
+</script>
+
+{% endblock %}

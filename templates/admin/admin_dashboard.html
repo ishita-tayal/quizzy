@@ -1,0 +1,108 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="display-4 text-center text-dark fw-bold">Admin Dashboard</h1>
+    <p class="lead text-center text-secondary">Manage users, subjects, quizzes, and chapters.</p>
+
+    <!-- Floating Add Subject Button -->
+    <div class="d-flex justify-content-end mb-4">
+        <button class="btn btn-success btn-lg rounded-circle shadow" title="Add Subject" data-bs-toggle="modal"
+            data-bs-target="#addSubjectModal">
+            <strong>+</strong>
+        </button>
+    </div>
+
+    <!-- Subject Cards -->
+    <div class="row">
+        {% for subject in subjects %}
+        <div class="col-md-4">
+            <a href="{{ url_for('subject_details', subject_id=subject.subject_id) }}" class="text-decoration-none">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title text-dark fw-bold">{{ subject.name }}</h4>
+                        <p class="text-muted">{{ subject.description }}</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Subject Edit & Delete Buttons -->
+            <div class="d-flex justify-content-between mb-4">
+                <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal"
+                    data-bs-target="#editSubjectModal{{ subject.subject_id }}">Edit</button>
+
+                <form action="{{ url_for('delete_subject', subject_id=subject.subject_id) }}" method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this subject?');">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit Subject Modal -->
+        <div class="modal fade" id="editSubjectModal{{ subject.subject_id }}" tabindex="-1"
+            aria-labelledby="editSubjectModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form action="{{ url_for('edit_subject', subject_id=subject.subject_id) }}" method="POST">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Subject</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="name" class="form-label">Subject Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ subject.name }}" required>
+                            <label for="description" class="form-label mt-2">Description</label>
+                            <input type="text" name="description" class="form-control"
+                                value="{{ subject.description }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+
+    <!-- Add Subject Modal -->
+    <div class="modal fade" id="addSubjectModal" tabindex="-1" aria-labelledby="addSubjectModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{{ url_for('add_subject') }}" method="POST">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Subject</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="name" class="form-label">Subject Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                        <label for="description" class="form-label mt-2">Description</label>
+                        <input type="text" name="description" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Add</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<!-- Styling -->
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+{% endblock %}

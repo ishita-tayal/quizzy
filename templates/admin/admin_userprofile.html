@@ -1,0 +1,60 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+<div class="container text-center my-5">
+    <!-- Animated Heading -->
+    <h1 class="display-4 fw-bold text-dark animate__animated animate__fadeInDown">User Profile</h1>
+    <p class="lead text-secondary animate__animated animate__fadeInUp">Here are the details of the user's account.</p>
+
+    <!-- Profile Details -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="p-4 rounded shadow-sm bg-white">
+                <h5 class="fw-bold text-dark mb-4">Profile Information</h5>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label fw-bold text-dark">Full Name</label>
+                    <p class="form-control-plaintext text-secondary">{{ user.full_name }}</p>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label fw-bold text-dark">Email Address</label>
+                    <p class="form-control-plaintext text-secondary">{{ user.email }}</p>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label fw-bold text-dark">Qualification</label>
+                    <p class="form-control-plaintext text-secondary">{{ user.qualification }}</p>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label fw-bold text-dark">Date of Birth</label>
+                    <p class="form-control-plaintext text-secondary">{{ user.dob }}</p>
+                </div>
+
+                <!-- Back to Dashboard -->
+                <div class="d-grid mt-4">
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-dark fw-bold">Return to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add animations -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .btn-dark:hover {
+        background-color: #333;
+        color: white;
+    }
+
+    .shadow-sm {
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}

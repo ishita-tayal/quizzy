@@ -1,0 +1,59 @@
+{% extends "user_layout.html" %}
+
+{% block body %}
+<!-- Container for quiz details -->
+<div class="container my-5">
+    <!-- Heading -->
+    <h1 class="display-4 text-center text-dark fw-bold mb-4 animate__animated animate__fadeIn">Quiz Details</h1>
+
+    <!-- Quiz Details Card -->
+    <div class="card shadow-lg border-0 rounded-lg p-4 bg-white">
+        <div class="card-body">
+            <!-- Quiz ID -->
+            <h4 class="card-title text-dark fw-bold mb-3">
+                Quiz ID: <span class="text-primary">#{{ quiz.quiz_id }}</span>
+            </h4>
+
+            <!-- Subject & Chapter -->
+            <div class="mb-3">
+                <h6 class="text-muted mb-1">Subject:</h6>
+                <p class="h5 text-dark">{{ quiz.chapter.subject.name }}</p>
+
+                <h6 class="text-muted mb-1">Chapter:</h6>
+                <p class="h5 text-dark">{{ quiz.chapter.name }}</p>
+            </div>
+
+            <!-- Number of Questions & Scheduled Date -->
+            <div class="mb-3">
+                <h6 class="text-muted mb-1">Number of Questions:</h6>
+                <p class="h5 text-dark">{{ quiz.questions|length }}</p>
+
+                <h6 class="text-muted mb-1">Scheduled Date:</h6>
+                <p class="h5 text-dark">{{ quiz.date_of_quiz.strftime('%Y-%m-%d %H:%M') }}</p>
+            </div>
+
+            <!-- Duration -->
+            <div class="mb-4">
+                <h6 class="text-muted mb-1">Duration:</h6>
+                <p class="h5 text-dark">{{ quiz.time_duration }} Minutes</p>
+            </div>
+
+            <!-- Buttons for interaction -->
+            <div class="d-flex justify-content-center gap-4">
+                <!-- Start Quiz Button -->
+                <a href="{{ url_for('start_quiz', quiz_id=quiz.quiz_id) }}"
+                    class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow-sm fw-bold">
+                    Start Quiz
+                </a>
+
+                <!-- Cancel Button -->
+                <a href="{{ url_for('user_dashboard') }}"
+                    class="btn btn-secondary btn-lg px-4 py-2 rounded-pill shadow-sm fw-bold">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

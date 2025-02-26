@@ -1,0 +1,42 @@
+{% extends "user_layout.html" %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="display-4 text-center text-dark fw-bold">Available Quizzes</h1>
+    <p class="lead text-center text-secondary">Select a quiz and test your knowledge!</p>
+
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Subject</th>
+                    <th>Chapter</th>
+                    <th>Quiz</th>
+                    <th>Date</th>
+                    <th>Duration (mins)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for quiz in quizzes %}
+                <tr>
+                    <td>{{ quiz.subject_name }}</td>
+                    <td>{{ quiz.chapter_name }}</td>
+                    <td>{{ quiz.title }}</td>
+                    <td>{{ quiz.date_of_quiz.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ quiz.time_duration }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{ url_for('user_quiz_details', quiz_id=quiz.quiz_id) }}"
+                                class="btn btn-outline-primary btn-sm">View</a>
+                            <a href="{{ url_for('start_quiz', quiz_id=quiz.quiz_id) }}"
+                                class="btn btn-outline-danger btn-sm">Start</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
