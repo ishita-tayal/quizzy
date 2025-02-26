@@ -12,7 +12,7 @@ class Admin(db.Model):
 # Define the User model
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(255, unique=True, nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     full_name = db.Column(db.String(255), nullable=False)
     qualification = db.Column(db.String(255), nullable=False)
@@ -66,40 +66,32 @@ def initialize_database(app):
             db.session.add(admin)
         
         # Hardcoded Subjects
-        math = Subject(name="Mathematics", description="Covers algebra, calculus, and geometry.")
-        physics = Subject(name="Physics", description="Concepts of motion, energy, and thermodynamics.")
-        chemistry = Subject(name="Chemistry", description="Study of matter, reactions, and periodic table.")
-        
-        db.session.add_all([math, physics, chemistry])
+        subjects = [
+            Subject(name="Mathematics", description="Covers algebra, calculus, and geometry."),
+            Subject(name="Physics", description="Concepts of motion, energy, and thermodynamics."),
+            Subject(name="Chemistry", description="Study of matter, reactions, and periodic table.")
+        ]
+        db.session.add_all(subjects)
         db.session.commit()
-
+        
         # Hardcoded Chapters and Quizzes
         chapters_and_quizzes = [
-            (math, "Algebra", "Basics of algebra", [
+            ("Algebra", "Mathematics", "Basics of algebra", [
                 ("Linear Equations Quiz", "00:15", [
                     ("What is the value of x in 2x + 3 = 7?", "2", "3", "4", "5", 1),
-                    ("Solve for y: 3y - 4 = 8", "3", "4", "5", "6", 2),
-                    ("Find the slope of y = 2x + 5", "2", "5", "10", "1", 1),
-                    ("What is 2(3x - 4) = 12?", "x = 2", "x = 3", "x = 4", "x = 5", 2)
-                ]),
-                ("Quadratic Equations Quiz", "00:15", [
-                    ("Find the roots of x² - 5x + 6 = 0", "2 & 3", "1 & 4", "-2 & -3", "-1 & -4", 1),
-                    ("What is the sum of roots in a quadratic equation?", "-b/a", "b/a", "c/a", "-c/a", 1),
-                    ("Solve x² - 9 = 0", "x = ±3", "x = ±9", "x = 3", "x = -3", 1),
-                    ("Discriminant of x² + 4x + 4 = 0", "0", "4", "16", "-4", 1)
+                    ("Solve for y: 3y - 4 = 8", "3", "4", "5", "6", 2)
                 ])
             ]),
-            (physics, "Motion", "Laws of motion", [
+            ("Motion", "Physics", "Laws of motion", [
                 ("Newton's Laws Quiz", "00:15", [
                     ("State Newton's first law", "Inertia", "Acceleration", "Force", "Momentum", 1),
-                    ("What is the formula for force?", "F = ma", "F = mv", "F = m/a", "F = m+v", 1),
-                    ("Unit of force in SI?", "Newton", "Joule", "Watt", "Dyne", 1),
-                    ("Third law states?", "Action-reaction", "Motion", "Gravity", "Momentum", 1)
+                    ("What is the formula for force?", "F = ma", "F = mv", "F = m/a", "F = m+v", 1)
                 ])
             ])
         ]
         
-        for subject, chapter_name, chapter_desc, quizzes in chapters_and_quizzes:
+        for chapter_name, subject_name, chapter_desc, quizzes in chapters_and_quizzes:
+            subject = Subject.query.filter_by(name=subject_name).first()
             chapter = Chapter(name=chapter_name, subject_id=subject.subject_id, description=chapter_desc)
             db.session.add(chapter)
             db.session.commit()
